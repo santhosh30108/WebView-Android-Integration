@@ -6,53 +6,92 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Yes"
+        app:layout_constraintStart_toStartOf="@+id/webView"
+        app:layout_constraintTop_toTopOf="@+id/webView" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/webView" />
+
     <WebView
         android:id="@+id/webView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="102dp"
-        app:layout_constraintBottom_toTopOf="@+id/textAndroidView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textWebView"
-        android:layout_width="0dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="20dp"
-        android:paddingLeft="10dp"
-        android:text="Text from webview will appear here"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/webView" />
-
-    <EditText
-        android:id="@+id/textAndroidView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="17dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="Hello from Android"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/androidbutton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/webView" />
-
-    <Button
-        android:id="@+id/androidbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="126dp"
-        android:text="Send To WebView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textAndroidView" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </WebView>
+    <!--        android:layout_marginBottom="157dp"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/textAndroidView"-->
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textbuttonWebView"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="20dp"-->
+    <!--        android:ellipsize="none"-->
+    <!--        android:maxLines="2"-->
+    <!--        android:padding="10dp"-->
+    <!--        android:scrollHorizontally="false"-->
+    <!--        android:text="Button name will be visible here"-->
+    <!--        android:textColor="#000000"-->
+    <!--        android:textSize="20sp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/webView" />-->
+
+    <!--    <EditText-->
+    <!--        android:id="@+id/textAndroidView"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginBottom="16dp"-->
+    <!--        android:ems="10"-->
+    <!--        android:inputType="textPersonName"-->
+    <!--        android:paddingLeft="10dp"-->
+    <!--        android:paddingRight="10dp"-->
+    <!--        android:text="Hello from Android"-->
+    <!--        android:textSize="20sp"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/androidbutton"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/webView" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/androidbutton"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="107dp"-->
+    <!--        android:layout_marginBottom="73dp"-->
+    <!--        android:text="Send To WebView"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/textAndroidView"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/textAndroidView" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textdataWebView"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="80dp"-->
+    <!--        android:maxLines="2"-->
+    <!--        android:padding="10dp"-->
+    <!--        android:scrollHorizontally="false"-->
+    <!--        android:text="Payload is Visible Here"-->
+    <!--        android:textColor="#000000"-->
+    <!--        android:textSize="20sp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.0"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/webView" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
