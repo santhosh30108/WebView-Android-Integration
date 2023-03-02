@@ -19,12 +19,15 @@ class MainActivity : AppCompatActivity() {
     lateinit var yes: Button
     lateinit var no:Button
 
-    val doubtId = "4e19822b-0547-4a8e-b356-758fa2241e20"
-    val token = "ccd5ca8a-c326-4249-be7d-1da8c3fb22f8"
-    val refreshtoken = "e86d0852-cca4-4546-9c42-ff0ae9705674"
-    val askAnExpert = false
-    val url = "http://10.0.2.2:3000/lms/webview-pages/ask-tutor/doubt/?doubtId="+doubtId+"&token="+token+"&refreshToken="+refreshtoken
-//    val url = "http://10.0.2.2:3000/lms/webview-pages/ask-tutor/doubt/?doubtId=1ad70016-187c-4a3a-afa9-40e675308279"
+    val ace_token = "52ad105b-624a-4dab-8085-5bea78ec6126"
+    val refresh_token = "c136803e-e798-4a2e-9e5d-fe500895efe5"
+//    val url = "http://10.0.2.2:3000/lms/survey/a7c68e71-fa77-468a-b37e-0669a73d4f08/?token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMDAwNDA0NzMzNiIsImRhdGEiOiJ7XCJwc2lkXCI6XCIwMDAwNDA0NzMzNlwifSIsImV4cCI6MTc3NzA1Njc0NiwiaWF0IjoxNjc3MDU2NzQ2fQ.uJoWq8jW41VF0NzrYmMkiu9D_AJvsZF8C_xMtUJvtAxm5eiSKMQGknkc9LQ6ZECwD2nT9K0Y3U04BpPvzOAk-Q&utm_source=sms"
+    val url = "http://10.0.2.2:3000/lms/webview-pages/fee-payment/?ace_token="+ace_token+"&refresh_token="+refresh_token
+    lateinit var Type1 : String
+    lateinit var Type2 : String
+    lateinit var prePayload64:String
+    lateinit var postPayload64: String
+
     @SuppressLint("JavascriptInterface", "SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,40 +35,41 @@ class MainActivity : AppCompatActivity() {
         webView = findViewById(R.id.webView)
         yes = findViewById(R.id.button)
         no = findViewById(R.id.button2)
-        webView.loadUrl(url)
         webView.settings.javaScriptEnabled = true;
         webView.webViewClient = WebViewClient()
-        webView.addJavascriptInterface(JSBridge(),"jsObject")
+        webView.addJavascriptInterface(JSBridge(), "jsObject")
         webView.settings.domStorageEnabled = true
         webView.settings.databaseEnabled = true
         webView = findViewById(R.id.webView)
-//    webView.setWebContentsDebuggingEnabled(true)
+        WebView.setWebContentsDebuggingEnabled(true)
 
-        val requestFeeback = RequestFeeBack("3","Solved")
-        val jsonString = Gson().toJson(requestFeeback)
+        val preOrderPayload = responseObject(
+            "Medhya Saruk",
+            "monikafotedar@yahoo.com",
+            "16896", "Two Years Integrated Course for NEET - July Batches",
+            "742612", "6", "2022-05-24T18:08:35.319014Z",
+            "2022", "BI040", "300000000601-5196,300000000602-7020,300000000603-4680"
+        )
 
-        val Type:String = "IS_YOUR_DOUBT_SOLVED"
-        val yesPayload = "yes"
-        val noPayload = "load_more"
+        val postOrderPayload = authObject(
+            ace_token, refresh_token
+        )
 
-    val nopayload64 = Base64.encodeToString(noPayload.toByteArray(), Base64.DEFAULT)
-    val yespayload64 = Base64.encodeToString(yesPayload.toByteArray(), Base64.DEFAULT)
-//    val payload64: String = URLEncoder.encode(mbPayload, "UTF-8")
+        Type1 = "SEND_PREORDER_API_PARAMS"
+        Type2 = "SEND_POSTORDER_API_PARAMS"
 
-        yes.setOnClickListener{
-            Log.d("payload",yespayload64.trim()+"abc")
-//            webView.evaluateJavascript("sendEventToWeb($mbType, $mbPayload)", null)
-            webView.evaluateJavascript(
-                "javascript: " +"sendEventToWeb(\"" + Type +
-                        "\",\""+yespayload64.trim()+"\")",null)
+        val preJsonString = Gson().toJson(preOrderPayload)
+        val postJsonString = Gson().toJson(postOrderPayload)
+
+        prePayload64 = Base64.encodeToString(preJsonString.toByteArray(), Base64.DEFAULT)
+            .replace("\\s".toRegex(), "")
+
+        postPayload64 = Base64.encodeToString(postJsonString.toByteArray(), Base64.DEFAULT)
+            .replace("\\s".toRegex(), "")
+
+        yes.setOnClickListener {
+            webView.loadUrl(url)
         }
-    no.setOnClickListener{
-        Log.d("payload",nopayload64.trim()+"abc")
-//            webView.evaluateJavascript("sendEventToWeb($mbType, $mbPayload)", null)
-        webView.evaluateJavascript(
-            "javascript: " +"sendEventToWeb(\"" + Type +
-                    "\",\""+nopayload64.trim()+"\")",null)
-    }
     }
 
 
@@ -93,7 +97,26 @@ class MainActivity : AppCompatActivity() {
             "LOADING" ->{
                 Toast.makeText(this, "Loading - "+payloadData.status, Toast.LENGTH_SHORT).show()
             }
-
+            "TRANSACTION_PAGE_RENDERED" ->{
+                if (payloadData.pre_transaction){
+                    Log.d("payload", prePayload64.trim() + "abc")
+                    runOnUiThread {
+                        webView.evaluateJavascript(
+                            "javascript: " + "sendEventToWeb(\"" + Type1 +
+                                    "\",\"" + prePayload64.trim() + "\")", null
+                        )
+                }
+                }
+                else {
+                    Log.d("payload", postPayload64.trim() + "abc")
+                    runOnUiThread {
+                        webView.evaluateJavascript(
+                            "javascript: " + "sendEventToWeb(\"" + Type2 +
+                                    "\",\"" + postPayload64.trim() + "\")", null
+                        )
+                    }
+                }
+            }
         }
 
     }
@@ -114,7 +137,20 @@ class MainActivity : AppCompatActivity() {
 
 }
 
-class RequestFeeBack(rating:String,remarks:String){
-    val rating = rating
-    val remarks = remarks
+class responseObject(name:String,email:String,amount:String,courseName:String,courseId:String,installmentNumber:String,dueDate:String,term:String,businessUnit:String,itemTypes:String){
+    val name = name
+    val email = email
+    val amount = amount
+    val courseName = courseName
+    val courseId = courseId
+    val installmentNumber = installmentNumber
+    val dueDate = dueDate
+    val term = term
+    val businessUnit = businessUnit
+    val itemTypes = itemTypes
+}
+
+class authObject(ace_token:String,refresh_token:String){
+    val ace_token = ace_token
+    val refresh_token = refresh_token
 }
